@@ -1,18 +1,4 @@
-import sys
 import random
-
-def get_path() :
-    path = 'tp1/file/randomA100.tsp'
-    if (len(sys.argv) > 1 and sys.argv[1] == 'o'):
-        letter = str(input('Letter ? (A - F) : '))
-        path = f'tp1/file/random{letter.upper()}100.tsp'
-    return path
-
-def get_nb():
-    n = 10
-    if (len(sys.argv) > 2):
-        n = int(sys.argv[2])
-    return n
 
 def matrix_and_dim(path) : 
     with open(path) as file:
@@ -51,10 +37,11 @@ def total_cost(matrix, points) :
         total_cost += temp_cost
     return total_cost
 
-def many_total_coast(n, matrix, dim) :
+
+def many_total_coast(nb_repeat, matrix, dim):
     all_total_cost = []
     points = [i for i in range(dim)]
-    for _ in range(n) :
+    for _ in range(nb_repeat):
         random.shuffle(points)
         all_total_cost.append(total_cost(matrix, points))
     return all_total_cost
