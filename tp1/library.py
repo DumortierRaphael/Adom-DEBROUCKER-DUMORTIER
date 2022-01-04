@@ -1,4 +1,4 @@
-import random
+import utils
 
 def matrix_and_dim(path) : 
     with open(path) as file:
@@ -19,29 +19,43 @@ def matrix_and_dim(path) :
         matrix.append(temp)
     return dim, matrix
 
-def cost(matrix, i, j) :
-    return matrix[i][j]
 
-def total_cost(matrix, points) :
+def cost(matrix, i, j) :
+    if i < j :
+        return matrix[i][j]
+    else :
+        return matrix[j][i]
+
+
+def total_cost(matrix, dim) :
+    points = utils.get_list_int_to_n(dim)
     len_list = len(points)
     total_cost = 0
     for i in range(len_list-1) :
-        point_i = points[i]
-        point_j = points[i+1]
-        if point_i < point_j:
-            temp_cost = cost(matrix, point_i, point_j)
-        elif point_i > point_j:
-            temp_cost = cost(matrix, point_j, point_i)
-        else :
-            temp_cost = 0
+        temp_cost = cost(matrix, points[i], points[i+1])
         total_cost += temp_cost
     return total_cost
 
 
-def many_total_coast(nb_repeat, matrix, dim):
+def cost_of_closest_point(matrix, points, main_point):
     all_total_cost = []
-    points = [i for i in range(dim)]
-    for _ in range(nb_repeat):
-        random.shuffle(points)
-        all_total_cost.append(total_cost(matrix, points))
-    return all_total_cost
+    for point in points[1:] :
+        all_total_cost.append([point, cost(matrix, main_point, point)])
+    min_point, min_cost = all_total_cost[0]
+    for p in all_total_cost :
+        min_p, p_cost = p
+        if min_cost > p_cost:
+            min_cost = p_cost
+            min_point = min_p
+    points.remove(min_point)
+    points[0] = min_point
+    return min_cost, points
+
+
+def all_closest_point(matrix, dim) :
+    points = utils.get_list_int_to_n(dim)
+    total_cost = 0
+    while len(points) > 1 :
+        closest_cost, points = cost_of_closest_point(matrix, points, points[0])
+        total_cost += closest_cost
+    return total_cost
