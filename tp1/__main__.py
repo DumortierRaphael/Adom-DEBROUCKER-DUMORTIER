@@ -1,5 +1,5 @@
-from tp1.library import *
+import library
 
-if __name__ == __main__:
+if __name__ == '__main__':
     path = library.get_path()
-    library.matrix(path)
+    matrix = library.matrix(path)
