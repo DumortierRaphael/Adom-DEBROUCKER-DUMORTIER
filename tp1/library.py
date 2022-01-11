@@ -34,7 +34,8 @@ def total_cost(matrix, dim) :
     for i in range(len_list-1) :
         temp_cost = cost(matrix, points[i], points[i+1])
         total_cost += temp_cost
-    return total_cost
+    total_cost += cost(matrix, points[0], points[-1])
+    return total_cost, points
 
 
 def cost_of_closest_point(matrix, points, main_point):
@@ -43,10 +44,10 @@ def cost_of_closest_point(matrix, points, main_point):
         all_total_cost.append([point, cost(matrix, main_point, point)])
     min_point, min_cost = all_total_cost[0]
     for p in all_total_cost :
-        min_p, p_cost = p
+        p_min, p_cost = p
         if min_cost > p_cost:
             min_cost = p_cost
-            min_point = min_p
+            min_point = p_min
     points.remove(min_point)
     points[0] = min_point
     return min_cost, points
@@ -54,8 +55,11 @@ def cost_of_closest_point(matrix, points, main_point):
 
 def all_closest_point(matrix, dim) :
     points = utils.get_list_int_to_n(dim)
+    closest_points = [points[0]]
     total_cost = 0
     while len(points) > 1 :
         closest_cost, points = cost_of_closest_point(matrix, points, points[0])
         total_cost += closest_cost
-    return total_cost
+        closest_points.append(points[0])
+    total_cost += cost(matrix, closest_points[0], closest_points[-1])
+    return total_cost, closest_points
