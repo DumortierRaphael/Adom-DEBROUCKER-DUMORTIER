@@ -1,5 +1,6 @@
 import utils
 
+#TP1
 def matrix_and_dim(path) : 
     with open(path) as file:
         data = file.readlines()
@@ -27,8 +28,7 @@ def cost(matrix, i, j) :
         return matrix[j][i]
 
 
-def total_cost(matrix, dim) :
-    points = utils.get_list_int_to_n(dim)
+def total_cost(matrix, points):
     len_list = len(points)
     total_cost = 0
     for i in range(len_list-1) :
@@ -63,3 +63,5 @@ def all_closest_point(matrix, dim) :
         closest_points.append(points[0])
     total_cost += cost(matrix, closest_points[0], closest_points[-1])
     return total_cost, closest_points
+
+#TP2
