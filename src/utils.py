@@ -14,24 +14,15 @@ def get_list_int_to_n(n) :
     return points
 
 
-def get_two_randoms(points):
-    length = len(points)
-    r1, r2 = random.randrange(1, length), random.randrange(length)
-    while r1 == r2:
-        r2 = random.randrange(length)
-    return r1, r2
-
-
-def swap(points):
-    r1, r2 = get_two_randoms(points)
-    points[r1], points[r2] = points[r2], points[r1]
+def swap(points, i, j):
+    points[i], points[j] = points[j], points[i]
     return points
 
 
-def two_opt(points):
-    r1, r2 = get_two_randoms(points)
-    if r1 > r2 :
-        r1, r2 = r2, r1
-    temp = points[r1:r2]
-    temp.reverse()
-    return points[0:r1] + temp + points[r2:]
+def two_opt(points, i, j) :
+    opti = points
+    d = abs(j - i)
+    d = (d + 1) / 2
+    for k in range(d) :
+        opti[i + k], opti[j - k] = points[j - k], points[i + k]
+    return opti

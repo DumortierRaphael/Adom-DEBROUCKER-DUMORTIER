@@ -35,6 +35,10 @@ def tp1() :
 
 
 def tp2() :
-    l = [i for i in range(15)]
-    print(l)
-    print(utils.two_opt(l))
+    all_path = utils.get_all_path()
+    path = all_path[0]
+    dim, matrix = library.matrix_and_dim(path)
+    points = utils.get_list_int_to_n(dim) #random
+    total_cost = library.tp2(points, matrix)
+    print(total_cost)
+    # print(library.cost(matrix, 27, 44))

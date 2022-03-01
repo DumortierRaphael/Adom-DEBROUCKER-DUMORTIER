@@ -1,3 +1,4 @@
+from multiprocessing.dummy import current_process
 import utils
 
 #TP1
@@ -64,4 +65,28 @@ def all_closest_point(matrix, dim) :
     total_cost += cost(matrix, closest_points[0], closest_points[-1])
     return total_cost, closest_points
 
+
 #TP2
+def bestNeighborSwap(points, matrix):
+    opti = points
+    init_cost = total_cost(matrix, opti)
+    best_cost = init_cost
+    changes = 0
+    best_gain = 0
+    for i in range(len(points)) :
+        for j in range(i+1, len(points)) :
+            gain = gain_swap(i, j, points, matrix)
+            if gain > best_gain:
+                utils.swap(i, j, points)
+                changes += 1;
+                best_cost = init_cost - gain
+                best_gain = gain
+                opti = points
+                utils.swap(i, j, points)
+        if changes != 0 :
+	        break
+    if changes == 0 :
+        return opti
+    else :
+        return bestNeighborSwap(opti, matrix)
+            
