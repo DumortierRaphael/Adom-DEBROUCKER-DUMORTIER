@@ -1,4 +1,9 @@
+from cmath import cos
+from ctypes import pointer
 from multiprocessing.dummy import current_process
+from threading import main_thread
+
+from django.forms import CheckboxSelectMultiple
 import utils
 
 #TP1
@@ -78,7 +83,7 @@ def bestNeighborSwap(points, matrix):
             gain = gain_swap(i, j, points, matrix)
             if gain > best_gain:
                 utils.swap(i, j, points)
-                changes += 1;
+                changes += 1
                 best_cost = init_cost - gain
                 best_gain = gain
                 opti = points
@@ -90,3 +95,36 @@ def bestNeighborSwap(points, matrix):
     else :
         return bestNeighborSwap(opti, matrix)
             
+def gain_swap(i, j, points, matrix):
+    #Incrementeurs
+    i1 = i - 1
+    j1 = j + 1
+    #Cas d'initialisation/defaut
+    if (i == 0):
+        i1 = len(points) -1
+    if ( j == len(points)-1):
+        j1 = 0
+    p1 = 0
+    p2 = 0
+
+    if(j == i+1):
+        p1 = cost(matrix,points[i1]-1,points[i]-1) + cost(matrix,points[j]-1,points[j1]-1)
+        p2 = cost(matrix,points[i1]-1,points[j]-1) - cost(matrix,points[i]-1,points[j1]-1)
+
+    elif(i==0 & j==len(points)-1):
+        p1 = cost(matrix,points[i]-1,points[i +1]-1) + cost(matrix,points[j-1]-1,points[j]-1)
+        p2 = cost(matrix,points[j]-1,points[i+1]-1) + cost(matrix,points[j-1]-1,points[i]-1)
+        
+    else : 
+        p1 = cost(matrix,points[i1-1],points[i]-1) 
+        +cost(matrix,points[i]-1,points[i+1]-1)
+        +cost(matrix,points[j-1]-1,points[j]-1)
+        +cost(matrix, points[j]-1,points[j1]-1)
+
+        p2 = cost(matrix,points[i1]-1,points[j]-1) 
+        +cost(matrix,points[j]-1,points[i+1]-1)
+        +cost(matrix,points[j-1]-1,points[i]-1)
+        +cost(matrix, points[i]-1,points[j1]-1)
+    gain = c1 - c2
+    return gain
+    
