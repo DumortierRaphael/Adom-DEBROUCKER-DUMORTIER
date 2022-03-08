@@ -125,6 +125,6 @@ def gain_swap(i, j, points, matrix):
         +cost(matrix,points[j]-1,points[i+1]-1)
         +cost(matrix,points[j-1]-1,points[i]-1)
         +cost(matrix, points[i]-1,points[j1]-1)
-    gain = c1 - c2
+    gain = p1 - p2
     return gain
     
